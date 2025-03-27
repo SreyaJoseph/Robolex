@@ -1,0 +1,181 @@
+/* Game container */
+/* Game container with initial background image */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  transition: background-color 0.5s ease-in-out;
+  font-family: Arial, sans-serif;
+  background-image: url('/oceanbg.jpg'); /* Set initial background */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Title styling */
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Centered big bubbles container */
+.bubble-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120px;
+  margin-top: 50px;
+}
+
+/* Big bubbles */
+.big-bubble {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 8px solid rgba(255, 255, 255, 0.4);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 70%);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out, opacity 0.2s, background-color 0.2s ease-in-out;
+  backdrop-filter: blur(10px);
+}
+
+/* Popped bubble effect */
+.big-bubble.popped {
+  position: relative;
+  transform: scale(1.2);
+  opacity: 0;
+}
+
+/* Splash effect covering the whole screen */
+.big-bubble.popped::after {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: inherit; /* Light splash effect */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: explode 0.6s ease-out forwards;
+  z-index: 999;
+}
+
+/* Explosion overlay covering the entire screen */
+.explosion-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: transparent; /* Will change dynamically */
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+  /*transition: background-color 0.6s ease-out;*/
+}
+
+/* Explosion animation */
+.explosion-overlay.active {
+  animation: explodeFullScreen 0.6s ease-out forwards;
+}
+
+/* Keyframes for explosion effect */
+@keyframes explodeFullScreen {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Small bubbles container (below big bubbles) */
+.small-bubbles-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 80%;
+  margin-top: 40px;
+}
+
+/* Small bubbles (Draggable Objects) */
+.small-bubble {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+  transition: transform 0.3s, border 0.3s ease-in-out;
+  position: relative;
+}
+
+/* Small bubble image */
+.small-bubble img {
+  width: 150px;
+  height: 120px;
+}
+
+.small-bubble {
+  opacity: 1 !important;
+  display: flex !important;
+}
+
+/* Celebration animation when correct */
+.celebration {
+  font-size: 24px;
+  font-weight: bold;
+  color: green;
+  margin-top: 20px;
+}
+
+/* Buttons */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.back-button, .next-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+}
+
+.back-button {
+  background-color: #ff6961;
+  color: white;
+}
+
+.next-button {
+  background-color: #77dd77;
+  color: white;
+}
+
+.back-button:hover {
+  background-color: #d65f5f;
+}
+
+.next-button:hover {
+  background-color: #5cb85c;
+}

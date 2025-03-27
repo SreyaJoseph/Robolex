@@ -1,0 +1,16 @@
+@keyframes glow {
+    0% { text-shadow: 0 0 5px #ffcc00; }
+    100% { text-shadow: 0 0 20px #ffcc00; }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+	

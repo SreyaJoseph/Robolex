@@ -1,0 +1,89 @@
+body {
+  background-color: #2C3E50;
+  font-family: Arial, sans-serif;
+}
+
+.assessment-container {
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.word-image {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.blanks {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.blank-box {
+  width: 50px;
+  height: 50px;
+  border: 2px dashed white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.options {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.letter-option {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 70px;
+  font-weight: bold;
+  cursor: grab;
+  border-radius: 5px;
+}
+
+.letter-option:active {
+  cursor: grabbing;
+}
+
+/* Robolex Character */
+.robolex-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  text-align: center;
+}
+
+.robolex {
+  width: 180px;
+}
+
+/* Speech Bubble */
+.speech-bubble {
+  position: absolute;
+  bottom: 120px;
+  right: 100px;
+  background-color: white;
+  color: black;
+  padding: 10px 15px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
