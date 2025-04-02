@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Edit, Bed, Settings, Square } from "lucide-react";
+import { ArrowLeft, BookOpen, Edit, Bed, Square, PenTool } from "lucide-react";
 
 const SecondYear = () => {
   const styles = {
@@ -71,7 +71,6 @@ const SecondYear = () => {
         <Link href="/main-menu" style={styles.link}>
           <ArrowLeft style={{ width: "24px", height: "24px" }} /> HOME
         </Link>
-        
       </header>
 
       <section style={styles.welcomeSection}>
@@ -80,10 +79,11 @@ const SecondYear = () => {
       </section>
 
       <section style={styles.featuresSection}>
-        <FeatureCard icon={<BookOpen size={40} />} title="Spell It" link="/TextRecognition" />
+        <FeatureCard icon={<PenTool size={40} />} title="Spell It" link="/TextRecognition" />
         <FeatureCard icon={<Edit size={40} />} title="Sentence Framing" link="/SentenceFraming" />
-        <FeatureCard icon={<Bed size={40} />} title="Bed Time Stories" link="/BedtimeStories" />  
+        <FeatureCard icon={<Bed size={40} />} title="Stories for you" link="/BedtimeStories" />  
         <FeatureCard icon={<Square size={40} />} title="Memory Matrix" link="/MemoryMatrix" />
+        <FeatureCard icon={<BookOpen size={40} />} title="Reading" link="/Reading" />
       </section>
 
       <footer style={styles.footer}>

@@ -16,7 +16,7 @@ export default function RegisterPage() {
       return;
     }
     console.log("Registering with:", name, email, password);
-    router.push("/dashboard"); // Redirect to dashboard after registration
+    router.push("/login"); // Redirect to dashboard after registration
   };
 
   return (

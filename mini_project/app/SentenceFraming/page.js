@@ -8,7 +8,6 @@ const girlImage = "/Assets/girl.jpg";
 const SentenceFraming = () => {
     const router = useRouter();
 
-    // Prevent infinite redirection
     useEffect(() => {
         if (window.location.pathname !== "/SentenceFraming") {
             router.push("/SentenceFraming");
@@ -21,51 +20,51 @@ const SentenceFraming = () => {
     const [highlightedText, setHighlightedText] = useState("");
 
     const boySentences = [
-      "Hey, I'm Ram!",
-      "I'm 8 years old.",
-      "I love playing football!",
-      "My favorite color is blue!",
-      "I have a pet dog named Bruno!"
+        "Hey, I'm Ram!",
+        "I'm 8 years old.",
+        "I love playing football!",
+        "My favorite color is blue!",
+        "I have a pet dog named Bruno!"
     ];
-  
+
     const girlSentences = [
-      "Hey, I'm Sita!",
-      "I'm 7 years old.",
-      "I love painting!",
-      "My favorite color is pink!",
-      "I have a pet cat named Whiskers!"
+        "Hey, I'm Sita!",
+        "I'm 7 years old.",
+        "I love painting!",
+        "My favorite color is pink!",
+        "I have a pet cat named Whiskers!"
     ];
 
     const sentences = isBoy ? boySentences : girlSentences;
 
-    // Load voices correctly
+    // Load voices
     useEffect(() => {
         const loadVoices = () => {
             setVoices(window.speechSynthesis.getVoices());
         };
-
         window.speechSynthesis.onvoiceschanged = loadVoices;
         loadVoices();
     }, []);
 
     const speakSentence = (index) => {
         if (index >= sentences.length) return;
+        
         const sentence = sentences[index];
         let charIndex = 0;
-  
+        
         const interval = setInterval(() => {
             setHighlightedText(sentence.substring(0, charIndex + 1));
             charIndex++;
             if (charIndex >= sentence.length) clearInterval(interval);
         }, 100);
-  
+
         const utterance = new SpeechSynthesisUtterance(sentence);
         utterance.voice = voices.find(voice => 
             isBoy ? voice.name.toLowerCase().includes("child") : voice.name.toLowerCase().includes("female")
         ) || null;
 
         utterance.onend = () => {
-            setTimeout(() => setHighlightIndex(index + 1), 1000);
+            setTimeout(() => setHighlightIndex(prev => prev + 1), 1000);
         };
 
         window.speechSynthesis.speak(utterance);
@@ -79,10 +78,16 @@ const SentenceFraming = () => {
         setHighlightIndex(0);
     };
 
+    const switchCharacter = () => {
+        setIsBoy(prev => !prev);
+        setHighlightIndex(0);  // Reset highlighting and speech progression
+        setHighlightedText(""); // Clear text to avoid overlap
+    };
+
     return (
         <div style={styles.container}>
             <h1 style={styles.heading}>Self Introduction</h1>
-            <button style={styles.toggleButton} onClick={() => setIsBoy(!isBoy)}>
+            <button style={styles.toggleButton} onClick={switchCharacter}>
                 Switch to {isBoy ? "Girl" : "Boy"}
             </button>
             <div style={styles.content}>

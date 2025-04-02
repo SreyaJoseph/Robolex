@@ -49,6 +49,10 @@ const Lines = () => {
 
   return (
     <div style={styles.container}>
+      <button style={styles.backButton} onClick={() => router.push("/first-year")}>
+        🔙 Back
+      </button>
+      
       <h1 style={styles.title}>Let's Learn Lines and Shapes!</h1>
       
       <div style={styles.buttonContainer}>
@@ -73,17 +77,13 @@ const Lines = () => {
         </div>
       )}
 
-{videoCompleted && selectedVideo && (
-  <>
-    <button style={styles.continueButton} onClick={() => router.push(activityRoutes[selectedVideo])}> 
-      Continue to Activity
-    </button>
-    <button style={styles.backButton} onClick={() => router.push("/first-year")}>
-      🔙 Back 
-    </button>
-  </>
-)}
-
+      {videoCompleted && selectedVideo && (
+        <>
+          <button style={styles.continueButton} onClick={() => router.push(activityRoutes[selectedVideo])}> 
+            Continue to Activity
+          </button>
+        </>
+      )}
     </div>
   );
 };
@@ -95,12 +95,13 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    height: "100%",
+    height: "100vh",
     width: "100%",
     backgroundColor: "#2C3E50",
     color: "white",
     padding: "20px",
     overflow: "auto",
+    position: "relative",
   },
   title: {
     fontSize: "28px",
@@ -123,7 +124,7 @@ const styles = {
     outline: "none",
   },
   backButton: {
-    position: "absolute",
+    position: "fixed",
     top: "10px",
     left: "10px",
     padding: "10px 15px",
@@ -133,6 +134,7 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     fontSize: "16px",
+    zIndex: 1000,
   },
   videoWrapper: {
     width: "50%",
@@ -168,4 +170,3 @@ const styles = {
 };
 
 export default Lines;
-

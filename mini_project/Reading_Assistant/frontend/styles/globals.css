@@ -1,0 +1,21 @@
+.reading-container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: grey;
+}

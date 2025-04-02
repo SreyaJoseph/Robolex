@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter, useParams } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import confetti from "canvas-confetti";
@@ -125,19 +124,35 @@ export default function LetterTracingPage() {
 
   // ----- Calculate Perfection -----
   const calculatePerfection = () => {
-    let coveredCount = 0;
-    const tolerance = 20; // pixels
+    // Max allowable distance from ideal point (in pixels)
+    const tolerance = 15; 
+  
+    let matchingPoints = 0;
+  
+    // Loop through each ideal point
     denseIdealPoints.forEach((idealPt) => {
-      const isCovered = drawnPoints.some((drawPt) => {
-        const dx = idealPt.x - drawPt.x;
-        const dy = idealPt.y - drawPt.y;
-        return Math.sqrt(dx * dx + dy * dy) <= tolerance;
+      let closestDistance = Infinity;
+  
+      // Compare to each drawn point
+      drawnPoints.forEach((drawnPt) => {
+        const dx = idealPt.x - drawnPt.x;
+        const dy = idealPt.y - drawnPt.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        closestDistance = Math.min(closestDistance, distance);
       });
-      if (isCovered) coveredCount++;
+  
+      // If the closest drawn point is within the tolerance, count it as a match
+      if (closestDistance <= tolerance) {
+        matchingPoints++;
+      }
     });
-    return (coveredCount / denseIdealPoints.length) * 100;
+  
+    // Calculate the perfection percentage based on how many ideal points were matched
+    const perfection = (matchingPoints / denseIdealPoints.length) * 100;
+  
+    return perfection;
   };
-
+  
   const handleCheck = () => {
     const percentage = calculatePerfection();
     setResult(percentage.toFixed(2));
@@ -176,11 +191,24 @@ export default function LetterTracingPage() {
       router.push(`/letter-tracing/${nextLetter}`);
     } else {
       alert("You've completed all letters!");
-    }
+    }  
+  };
+
+  // ----- Back Button Navigation -----
+  const handleBack = () => {
+    router.push("/first-year"); // Replace with the correct URL of your first-year page
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4">
+      {/* Back Button */}
+      <button
+        onClick={handleBack}
+        className="absolute top-4 left-4 bg-gray-800 px-4 py-2 text-white rounded-lg hover:bg-gray-700 transition"
+      >
+        Back
+      </button>
+
       <h1 className="text-3xl font-bold mb-4">Trace Letter: {letter.toUpperCase()}</h1>
       <canvas
         ref={canvasRef}

@@ -2,7 +2,8 @@
 
 import React, { useState, useRef } from "react";
 import Tesseract from "tesseract.js";
-import Link from "next/link"; // ✅ Import Link from Next.js
+import Link from "next/link";
+import { useRouter } from "next/navigation"; // ✅ Import useRouter
 
 const TextRecognition = () => {
   const [text, setText] = useState("");
@@ -10,6 +11,7 @@ const TextRecognition = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const speechRef = useRef(null);
+  const router = useRouter(); // ✅ Initialize router
 
   const handleImageUpload = async (event) => {
     const imageFile = event.target.files[0];
@@ -30,8 +32,7 @@ const TextRecognition = () => {
   };
 
   const readTextAloud = (text) => {
-    stopSpeech(); // Stop previous speech if any
-
+    stopSpeech();
     if (!text.trim()) return;
 
     const speech = new SpeechSynthesisUtterance(text);
@@ -46,7 +47,6 @@ const TextRecognition = () => {
 
   const pauseResumeSpeech = () => {
     if (!isSpeaking) return;
-
     if (isPaused) {
       window.speechSynthesis.resume();
     } else {
@@ -63,6 +63,7 @@ const TextRecognition = () => {
 
   return (
     <div style={styles.container}>
+      <button onClick={() => router.back()} style={styles.backButton}>⬅ Back</button>
       <h2 style={styles.title}>Scan & Listen!</h2>
       <p style={styles.subtitle}>
         Upload an image of text, and I'll read it aloud for you!
@@ -86,8 +87,6 @@ const TextRecognition = () => {
               <button onClick={stopSpeech} style={styles.button}>
                 ⏹ Stop
               </button>
-
-              {/* ✅ Correctly placed Link */}
               <Link href={`/KeywordReader?extractedText=${encodeURIComponent(text)}`} passHref>
                 <button style={styles.button}>Proceed to Keywords</button>
               </Link>
@@ -174,6 +173,19 @@ const styles = {
     cursor: "pointer",
     transition: "0.3s",
     boxShadow: "3px 3px 8px rgba(0,0,0,0.2)",
+  },
+  backButton: {
+    position: "fixed",
+    top: "10px",
+    left: "10px",
+    padding: "10px 15px",
+    backgroundColor: "#ed2939",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "16px",
+    zIndex: 1000,
   },
 };
 
