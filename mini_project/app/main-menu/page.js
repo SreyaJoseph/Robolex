@@ -17,12 +17,6 @@ export default function MainMenu() {
           Chatbot
         </button>
         <button
-          onClick={() => router.push("/progress-bar")}
-          className="bg-purple-500 w-full py-4 rounded-lg text-white text-lg font-semibold hover:bg-purple-600 transition"
-        >
-          Progress Bar
-        </button>
-        <button
           onClick={() => router.push("/age-selection")}
           className="bg-orange-500 w-full py-4 rounded-lg text-white text-lg font-semibold hover:bg-orange-600 transition"
         >

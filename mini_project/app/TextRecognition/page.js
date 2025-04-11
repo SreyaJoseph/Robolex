@@ -7,9 +7,13 @@ import { useRouter } from "next/navigation"; // ✅ Import useRouter
 
 const TextRecognition = () => {
   const [text, setText] = useState("");
+  const [highlightedHTML, setHighlightedHTML] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  // Fixed reading speed; set to 0.9 for a comfortable pace.
+  const fixedSpeed = 0.5;
+
   const speechRef = useRef(null);
   const router = useRouter(); // ✅ Initialize router
 
@@ -23,6 +27,8 @@ const TextRecognition = () => {
         logger: (m) => console.log(m),
       });
       setText(text);
+      // Initialize the highlighted content with original text.
+      setHighlightedHTML(text);
       readTextAloud(text);
     } catch (error) {
       console.error("Error processing image:", error);
@@ -31,13 +37,49 @@ const TextRecognition = () => {
     }
   };
 
-  const readTextAloud = (text) => {
-    stopSpeech();
-    if (!text.trim()) return;
+  // This function highlights the current word based on the character index.
+  const highlightWordAtIndex = (fullText, charIndex) => {
+    const wordRegex = /\S+/g;
+    let match;
+    while ((match = wordRegex.exec(fullText)) !== null) {
+      const start = match.index;
+      const end = start + match[0].length;
+      if (charIndex >= start && charIndex < end) {
+        const before = fullText.slice(0, start);
+        const word = fullText.slice(start, end);
+        const after = fullText.slice(end);
+        // Using <mark> for highlighting; inline style ensures our custom color.
+        const highlighted = `${before}<mark style="background-color: yellow; font-weight: bold;">${word}</mark>${after}`;
+        setHighlightedHTML(highlighted);
+        break;
+      }
+    }
+  };
 
-    const speech = new SpeechSynthesisUtterance(text);
+  const readTextAloud = (inputText) => {
+    stopSpeech();
+    if (!inputText.trim()) return;
+
+    const speech = new SpeechSynthesisUtterance(inputText);
     speech.lang = "en-US";
-    speech.onend = () => setIsSpeaking(false);
+    // Always use the fixed speed
+    speech.rate = fixedSpeed;
+    speech.pitch = 2; // A bit higher/pitched for warmth
+    speech.volume = 1; // Default volume
+
+    // Highlight words as the boundaries are reached.
+    speech.onboundary = (event) => {
+      if (event.name === "word") {
+        highlightWordAtIndex(inputText, event.charIndex);
+      }
+    };
+
+    speech.onend = () => {
+      setIsSpeaking(false);
+      setIsPaused(false);
+      // Reset highlighting to the original text when finished.
+      setHighlightedHTML(inputText);
+    };
 
     window.speechSynthesis.speak(speech);
     speechRef.current = speech;
@@ -59,27 +101,40 @@ const TextRecognition = () => {
     window.speechSynthesis.cancel();
     setIsSpeaking(false);
     setIsPaused(false);
+    // Reset the highlighted HTML to the original text.
+    setHighlightedHTML(text);
   };
 
   return (
     <div style={styles.container}>
-      <button onClick={() => router.back()} style={styles.backButton}>⬅ Back</button>
-      <h2 style={styles.title}>Scan & Listen!</h2>
+      <button onClick={() => router.back()} style={styles.backButton}>
+        ⬅ Back
+      </button>
+      <h2 style={styles.title}>Scan & Enjoy!</h2>
       <p style={styles.subtitle}>
-        Upload an image of text, and I'll read it aloud for you!
+        Upload your text image and I'll happily read it aloud.
       </p>
 
       <label style={styles.fileUpload}>
-        <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: "none" }} />
-        📸 Upload Image
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{ display: "none" }}
+        />
+        😊 Upload Image
       </label>
 
       {loading ? (
-        <p style={styles.loading}>🔄 Processing Image...</p>
+        <p style={styles.loading}>Please wait, processing your image...</p>
       ) : (
         text && (
           <div style={styles.textContainer}>
-            <p style={styles.text}>{text}</p>
+            {/* Preserve white space and original alignment using pre-wrap */}
+            <div 
+              style={styles.text}
+              dangerouslySetInnerHTML={{ __html: highlightedHTML }} 
+            />
             <div style={styles.buttonContainer}>
               <button onClick={pauseResumeSpeech} style={styles.button}>
                 {isPaused ? "▶ Resume" : "⏸ Pause"}
@@ -147,7 +202,8 @@ const styles = {
     lineHeight: "1.8",
     fontFamily: "'Comic Sans MS', 'Arial', sans-serif",
     color: "#333",
-    textAlign: "center",
+    textAlign: "left",
+    whiteSpace: "pre-wrap",
     maxWidth: "600px",
     margin: "20px auto",
     border: "2px dashed #FF8C00",
@@ -156,12 +212,14 @@ const styles = {
   text: {
     fontSize: "20px",
     fontWeight: "bold",
+    fontFamily: "inherit",
   },
   buttonContainer: {
     marginTop: "15px",
     display: "flex",
     justifyContent: "center",
     gap: "10px",
+    flexWrap: "wrap",
   },
   button: {
     padding: "10px 18px",

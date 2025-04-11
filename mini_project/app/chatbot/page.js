@@ -56,7 +56,7 @@ export default function ChatbotPage() {
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.sender}`}>
             <div className="chat-bubble">
-              <strong>{msg.sender === "user" ? "You" : "Assistant"}:</strong> {msg.text}
+              <strong>{msg.sender === "user" ? "You" : "Robolex"}:</strong> {msg.text}
             </div>
           </div>
         ))}

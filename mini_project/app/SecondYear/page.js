@@ -1,7 +1,14 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, BookOpen, Edit, Bed, Square, PenTool } from "lucide-react";
+import { 
+  ArrowLeft, 
+  Headphones, 
+  MessageSquare, 
+  Moon, 
+  Grid, 
+  Volume2 // You can swap this with BookOpen if desired
+} from "lucide-react";
 
 const SecondYear = () => {
   const styles = {
@@ -79,11 +86,11 @@ const SecondYear = () => {
       </section>
 
       <section style={styles.featuresSection}>
-        <FeatureCard icon={<PenTool size={40} />} title="Spell It" link="/TextRecognition" />
-        <FeatureCard icon={<Edit size={40} />} title="Sentence Framing" link="/SentenceFraming" />
-        <FeatureCard icon={<Bed size={40} />} title="Stories for you" link="/BedtimeStories" />  
-        <FeatureCard icon={<Square size={40} />} title="Memory Matrix" link="/MemoryMatrix" />
-        <FeatureCard icon={<BookOpen size={40} />} title="Reading" link="/Reading" />
+        <FeatureCard icon={<Headphones size={40} />} title="Listening" link="/TextRecognition" />
+        <FeatureCard icon={<MessageSquare size={40} />} title="Sentence Framing" link="/SentenceFraming" />
+        <FeatureCard icon={<Moon size={40} />} title="Stories for you" link="/BedtimeStories" />  
+        <FeatureCard icon={<Grid size={40} />} title="Memory Matrix" link="/MemoryMatrix" />
+        <FeatureCard icon={<Volume2 size={40} />} title="Read Aloud" link="/ReadingActivity" />
       </section>
 
       <footer style={styles.footer}>

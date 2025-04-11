@@ -1,47 +1,71 @@
-import clientPromise from "@/lib/mongodb";
+import clientPromise from "../../../../src/lib/mongodb";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
+    const { email, password } = await req.json();
+
+    if (!email || !password) {
+      return NextResponse.json(
+        { error: "Email and password are required." },
+        { status: 400 }
+      );
+    }
+
+    if (!process.env.JWT_SECRET) {
+      throw new Error("⚠️ Missing JWT_SECRET in environment variables");
+    }
+
+    const sanitizedEmail = email.trim().toLowerCase();
     const client = await clientPromise;
     const db = client.db("mydatabase");
     const usersCollection = db.collection("users");
 
-    const { email, password } = await req.json();
-
-    // Find user by email
-    const user = await usersCollection.findOne({ email });
-
+    const user = await usersCollection.findOne({ email: sanitizedEmail });
     if (!user) {
-      return new Response(JSON.stringify({ error: "User not found" }), {
-        status: 404,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json(
+        { error: "User not found. Please register first." },
+        { status: 404 }
+      );
     }
 
-    // Compare password with stored hash
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
-      return new Response(JSON.stringify({ error: "Invalid password" }), {
-        status: 401,
-        headers: { "Content-Type": "application/json" },
-      });
+      return NextResponse.json(
+        { error: "Incorrect password for this email." },
+        { status: 401 }
+      );
     }
 
-    return new Response(
-      JSON.stringify({ message: "Login successful!" }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
+    const token = jwt.sign(
+      { userId: user._id, email: sanitizedEmail },
+      process.env.JWT_SECRET,
+      { expiresIn: "30d" }
     );
 
+    const response = NextResponse.json(
+      {
+        message: "Login successful!",
+        user: { name: user.name, email: user.email },
+      },
+      { status: 200 }
+    );
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 30 * 24 * 60 * 60,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Login Error:", error);
-    return new Response(JSON.stringify({ error: "Server error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(
+      { error: "Internal server error. Please try again." },
+      { status: 500 }
+    );
   }
 }
