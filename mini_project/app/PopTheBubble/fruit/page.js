@@ -60,7 +60,7 @@ const PopTheBubbleFruit = () => {
   }}
 >
 
-      <h1 className="title">Match the Color - Fruit Edition! 🍎🍌🍇</h1>
+      <h1 className="title">Match the Color - Fruit Edition!</h1>
 
       <div className="bubble-wrapper">
         {COLORS.map((color) => (

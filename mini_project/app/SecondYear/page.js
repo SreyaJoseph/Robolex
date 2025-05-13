@@ -81,7 +81,7 @@ const SecondYear = () => {
       </header>
 
       <section style={styles.welcomeSection}>
-        <h1 style={styles.title}>Learning made easier!</h1>
+        <h1 style={styles.title}>What do you want to learn?</h1>
         <p style={styles.subtitle}>Choose what your kid wants to learn</p>
       </section>
 
@@ -90,7 +90,7 @@ const SecondYear = () => {
         <FeatureCard icon={<MessageSquare size={40} />} title="Sentence Framing" link="/SentenceFraming" />
         <FeatureCard icon={<Moon size={40} />} title="Stories for you" link="/BedtimeStories" />  
         <FeatureCard icon={<Grid size={40} />} title="Memory Matrix" link="/MemoryMatrix" />
-        <FeatureCard icon={<Volume2 size={40} />} title="Read Aloud" link="/ReadingActivity" />
+        <FeatureCard icon={<Volume2 size={40} />} title="Read Aloud" link="/ReadAloud" />
       </section>
 
       <footer style={styles.footer}>

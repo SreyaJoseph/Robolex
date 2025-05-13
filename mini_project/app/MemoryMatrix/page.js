@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import "./MemoryMatrix.css"; // Import the CSS file
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import "./MemoryMatrix.css";
+import { useRouter } from "next/navigation";
 
 const images = [
   { id: "img1", src: "/images/rainbow.jpg" },
@@ -15,30 +15,30 @@ const images = [
 ];
 
 const MemoryMatrix = () => {
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
   const [cards, setCards] = useState([]);
   const [selected, setSelected] = useState([]);
   const [matched, setMatched] = useState([]);
   const [time, setTime] = useState(0);
   const [gameWon, setGameWon] = useState(false);
 
-  // Shuffle and initialize the cards
+  // Shuffle and initialize cards
   useEffect(() => {
-    const shuffledCards = [...images, ...images]
+    const shuffled = [...images, ...images]
       .sort(() => Math.random() - 0.5)
-      .map((image, index) => ({ ...image, key: index }));
-    setCards(shuffledCards);
+      .map((card, index) => ({ ...card, uniqueKey: `${card.id}-${index}` }));
+    setCards(shuffled);
   }, []);
 
-  // Timer logic
+  // Start timer
   useEffect(() => {
     if (!gameWon) {
-      const interval = setInterval(() => setTime((prev) => prev + 1), 1000);
-      return () => clearInterval(interval);
+      const timer = setInterval(() => setTime((t) => t + 1), 1000);
+      return () => clearInterval(timer);
     }
   }, [gameWon]);
 
-  // Check if all pairs are matched
+  // Check win condition
   useEffect(() => {
     if (matched.length === images.length) {
       setGameWon(true);
@@ -46,58 +46,87 @@ const MemoryMatrix = () => {
   }, [matched]);
 
   const handleCardClick = (card) => {
-    if (selected.length < 2 && !selected.includes(card) && !matched.includes(card.id)) {
-      setSelected([...selected, card]);
-    }
-    if (selected.length === 1) {
-      if (selected[0].id === card.id) {
-        setMatched([...matched, card.id]);
-        setSelected([]);
-      } else {
-        setTimeout(() => setSelected([]), 800);
+    if (
+      selected.length < 2 &&
+      !selected.includes(card) &&
+      !matched.includes(card.id)
+    ) {
+      const newSelected = [...selected, card];
+      setSelected(newSelected);
+
+      if (newSelected.length === 2) {
+        if (newSelected[0].id === newSelected[1].id) {
+          setMatched((prev) => [...prev, card.id]);
+          setTimeout(() => setSelected([]), 500);
+        } else {
+          setTimeout(() => setSelected([]), 800);
+        }
       }
     }
   };
 
   const resetGame = () => {
+    const reshuffled = [...images, ...images]
+      .sort(() => Math.random() - 0.5)
+      .map((card, index) => ({ ...card, uniqueKey: `${card.id}-${index}` }));
     setMatched([]);
     setSelected([]);
     setGameWon(false);
     setTime(0);
-    setCards([...images, ...images].sort(() => Math.random() - 0.5));
+    setCards(reshuffled);
   };
 
   const refreshGame = () => {
-    window.location.reload(); // Full page reload
+    window.location.reload();
   };
 
   return (
     <div className="container">
       <header>
-        <button className="back-btn" onClick={() => router.back()}>⬅ Back</button>
-        <h3 style={{ fontSize: "25px", fontWeight: "bold", color: "white" }}>Memory Matrix</h3>
+        <button className="back-btn" onClick={() => router.back()}>
+          ⬅ Back
+        </button>
+        <h3 style={{ fontSize: "25px", fontWeight: "bold", color: "white" }}>
+          Memory Matrix
+        </h3>
         <p>Time: {time}s</p>
-        <button onClick={refreshGame} className="refresh-btn">🔄 Refresh Game</button>
+        <button onClick={refreshGame} className="refresh-btn">
+          🔄 Refresh Game
+        </button>
       </header>
+
       <main>
-        <p>Click on two squares to find matching symbols. Try to match all pairs!</p>
-        {gameWon && <div className="congratulations">🎉 Congratulations! You found all the pairs! 🎉</div>}
+        <p>
+          Click on two squares to find matching symbols. Try to match all
+          pairs!
+        </p>
+
+        {gameWon && (
+          <div className="congratulations">
+            🎉 Congratulations! You found all the pairs! 🎉
+          </div>
+        )}
         {gameWon && <button onClick={resetGame}>Play Again</button>}
+
         <div className="game-board">
-          {cards.map((card) => (
-            <div
-              key={card.key}
-              className={`card ${selected.includes(card) || matched.includes(card.id) ? "flipped" : ""}`}
-              onClick={() => handleCardClick(card)}
-            >
-              <div className="card-inner">
-                <div className="card-front"></div>
-                <div className="card-back">
-                  <img src={card.src} alt="icon" />
+          {cards.map((card) => {
+            const isFlipped =
+              selected.includes(card) || matched.includes(card.id);
+            return (
+              <div
+                key={card.uniqueKey}
+                className={`card ${isFlipped ? "flipped" : ""}`}
+                onClick={() => handleCardClick(card)}
+              >
+                <div className="card-inner">
+                  <div className="card-front"></div>
+                  <div className="card-back">
+                    <img src={card.src} alt="icon" />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </main>
     </div>

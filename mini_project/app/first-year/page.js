@@ -18,7 +18,7 @@ const FirstYear = () => {
 
       {/* Title Section */}
       <section className="text-center py-10">
-        <h1 className="text-3xl font-bold text-blue-400">Welcome to First Year Learning</h1>
+        <h1 className="text-3xl font-bold text-blue-400">What do you want to learn?</h1>
         <p className="text-lg text-gray-300 mt-2">Choose a learning category</p>
       </section>
 

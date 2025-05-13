@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url("/popbgg.jpg"); /* ✅ Add your image path */
+  background-color:#93e4c1;
   background-size: cover; /* ✅ Ensure full coverage */
   background-position: center; /* ✅ Center the image */
   background-repeat: no-repeat; /* ✅ No repetition */

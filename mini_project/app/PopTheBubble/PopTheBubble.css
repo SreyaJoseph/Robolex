@@ -165,6 +165,7 @@
 .back-button {
   background-color: #ff6961;
   color: white;
+  margin-right: 15px;
 }
 
 .next-button {

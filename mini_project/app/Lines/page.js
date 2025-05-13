@@ -110,17 +110,17 @@ const styles = {
   },
   buttonContainer: {
     display: "flex",
-    gap: "10px",
+    gap: "20px",
     marginBottom: "20px",
   },
   button: {
-    padding: "12px 20px",
-    fontSize: "16px",
+    padding: "24px 36px",
+    fontSize: "24px",
     backgroundColor: "#FF6F61",
     color: "white",
     border: "none",
     cursor: "pointer",
-    borderRadius: "5px",
+    borderRadius: "8px",
     outline: "none",
   },
   backButton: {

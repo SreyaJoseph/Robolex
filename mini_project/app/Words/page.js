@@ -84,9 +84,10 @@ const styles = {
   grid: {
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
-    maxWidth: "400px",
-    margin: "auto",
+    gap: "30px",       // more space between buttons
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "40px",
   },
   card: {
     display: "flex",
@@ -97,11 +98,13 @@ const styles = {
     borderRadius: "12px",
     textDecoration: "none",
     color: "white",
-    fontSize: "20px",
+    fontSize: "22px", // slightly bigger text
     fontWeight: "bold",
     transition: "0.3s",
     cursor: "pointer",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+    width: "320px",    // increased width
+    height: "80px",    // increased height
   },
 };
 

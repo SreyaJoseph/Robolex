@@ -40,7 +40,7 @@ export default function LetterTracingPage() {
     canvas.height = 400;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    ctx.font = "200px Arial";
+    ctx.font = "300px Arial";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "#00AEEF";
@@ -69,7 +69,7 @@ export default function LetterTracingPage() {
     if (drawnPoints.length > 0) {
       const lastPoint = drawnPoints[drawnPoints.length - 1];
       ctx.strokeStyle = "red";
-      ctx.lineWidth = 12;
+      ctx.lineWidth = 22;
       ctx.lineCap = "round";
       ctx.beginPath();
       ctx.moveTo(lastPoint.x, lastPoint.y);
@@ -107,7 +107,7 @@ export default function LetterTracingPage() {
   // Then, average these distances and normalize:
   //   normalizedAccuracy = max(0, 1 - (avgError / tolerance)) * 100.
   const calculatePerfection = () => {
-    const tolerance = 25; // maximum acceptable average error (in pixels)
+    const tolerance = 40; // maximum acceptable average error (in pixels)
     let totalError = 0;
     let sampleCount = 0;
     
@@ -117,8 +117,8 @@ export default function LetterTracingPage() {
     const { data, width, height } = letterMaskRef.current;
     
     // Sample a grid (every 10 pixels) over the canvas
-    for (let y = 0; y < height; y += 10) {
-      for (let x = 0; x < width; x += 10) {
+    for (let y = 0; y < height; y += 15) {
+      for (let x = 0; x < width; x += 15) {
         const idx = (y * width + x) * 4;
         // Only consider pixels that are part of the ideal letter (alpha > 100)
         if (data[idx + 3] > 100) {
