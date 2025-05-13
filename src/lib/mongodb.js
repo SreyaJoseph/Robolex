@@ -1,35 +1,14 @@
-"use strict";
+// pages/api/your-api.js
+import clientPromise from "@/lib/mongodb";
 
-import { MongoClient } from "mongodb";
-
-const uri = process.env.MONGODB_URI;
-if (!uri) {
-  throw new Error("⚠️ Missing MONGODB_URI in environment variables");
-}
-
-const options = {
-  connectTimeoutMS: 10000,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-let client;
-let clientPromise;
-
-if (process.env.NODE_ENV === "development") {
-  // In development, use a global variable so that the value is preserved across module reloads
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+export default async function handler(req, res) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("your-db-name");
+    const data = await db.collection("your-collection").find({}).toArray();
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("MongoDB API Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-  clientPromise = global._mongoClientPromise;
-} else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
 }
-
-clientPromise
-  .then(() => console.log("✅ MongoDB Connected Successfully!"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
-
-export default clientPromise;
