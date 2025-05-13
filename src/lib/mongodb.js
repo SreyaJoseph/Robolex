@@ -1,14 +1,20 @@
-// pages/api/your-api.js
-import clientPromise from "@/lib/mongodb";
+import { MongoClient } from 'mongodb';
 
-export default async function handler(req, res) {
-  try {
-    const client = await clientPromise;
-    const db = client.db("mydatabase");
-    const data = await db.collection("users").find({}).toArray();
-    res.status(200).json(data);
-  } catch (error) {
-    console.error("MongoDB API Error:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+// Initialize MongoDB client
+const client = new MongoClient(process.env.MONGODB_URI);
+
+// Declare clientPromise to manage the MongoDB connection
+let clientPromise;
+
+if (process.env.NODE_ENV === 'development') {
+  // For development, use a global variable to prevent new connections on every refresh
+  if (!global._mongoClientPromise) {
+    global._mongoClientPromise = client.connect();
   }
+  clientPromise = global._mongoClientPromise;
+} else {
+  // In production, directly return the promise for client connection
+  clientPromise = client.connect();
 }
+
+export default clientPromise;
