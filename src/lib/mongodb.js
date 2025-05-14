@@ -1,19 +1,20 @@
 import { MongoClient } from 'mongodb';
 
-// Initialize MongoDB client
-const client = new MongoClient(process.env.MONGODB_URI);
+const client = new MongoClient(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  // only for debugging—allows you to bypass strict cert validation
+  // remove this in production!
+  tlsAllowInvalidCertificates: true,
+});
 
-// Declare clientPromise to manage the MongoDB connection
 let clientPromise;
-
 if (process.env.NODE_ENV === 'development') {
-  // For development, use a global variable to prevent new connections on every refresh
   if (!global._mongoClientPromise) {
     global._mongoClientPromise = client.connect();
   }
   clientPromise = global._mongoClientPromise;
 } else {
-  // In production, directly return the promise for client connection
   clientPromise = client.connect();
 }
 
