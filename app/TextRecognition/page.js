@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import Tesseract from "tesseract.js";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // ✅ Import useRouter
+import { useRouter } from "next/navigation"; //  Import useRouter
 
 const TextRecognition = () => {
   const [text, setText] = useState("");
@@ -15,7 +15,7 @@ const TextRecognition = () => {
   const fixedSpeed = 0.3;
 
   const speechRef = useRef(null);
-  const router = useRouter(); // ✅ Initialize router
+  const router = useRouter(); //  Initialize router
 
   const handleImageUpload = async (event) => {
     const imageFile = event.target.files[0];

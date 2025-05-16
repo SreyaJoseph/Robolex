@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 const Words = () => {
   const router = useRouter();
 
-  // ✅ Random redirect function
+  //  Random redirect function
   const handleRandomPopTheBubble = () => {
     const editions = ["fruit", "animal"];
     const randomEdition = editions[Math.floor(Math.random() * editions.length)];

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // ✅ Import useRouter
+import { useRouter } from "next/navigation"; // Import useRouter
 
 const stories = [
   { title: "The Bear and The Bee", path: "/BedtimeStories/bear-and-bee" },
@@ -11,13 +11,13 @@ const stories = [
 ];
 
 const BedtimeStoryGrid = () => {
-  const router = useRouter(); // ✅ Initialize useRouter
+  const router = useRouter(); //  Initialize useRouter
 
   return (
     <div style={styles.container}>
       <h1 style={styles.heading}>Choose a Magical Bedtime Story!</h1>
 
-      {/* ✅ Corrected Back Button */}
+      {/*  Corrected Back Button */}
       <button onClick={() => router.push("/SecondYear")} style={styles.backButton}>
         ⬅ Back
       </button>
