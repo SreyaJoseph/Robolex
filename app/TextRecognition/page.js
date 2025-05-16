@@ -12,7 +12,7 @@ const TextRecognition = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   // Fixed reading speed; set to 0.9 for a comfortable pace.
-  const fixedSpeed = 0.5;
+  const fixedSpeed = 0.3;
 
   const speechRef = useRef(null);
   const router = useRouter(); // ✅ Initialize router
@@ -65,7 +65,7 @@ const TextRecognition = () => {
     // Always use the fixed speed
     speech.rate = fixedSpeed;
     speech.pitch = 2; // A bit higher/pitched for warmth
-    speech.volume = 1; // Default volume
+    speech.volume = 5; // Default volume
 
     // Highlight words as the boundaries are reached.
     speech.onboundary = (event) => {

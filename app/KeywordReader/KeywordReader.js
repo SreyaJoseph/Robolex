@@ -29,7 +29,7 @@ export default function KeywordReader() {
 
     // Shuffle and then select up to 6 random words
     const shuffledWords = words.sort(() => 0.5 - Math.random());
-    const selectedWords = shuffledWords.slice(0, 6);
+    const selectedWords = shuffledWords.slice(0, 10);
 
     setKeywords(selectedWords);
   }, [text]);
@@ -43,9 +43,9 @@ export default function KeywordReader() {
     const speech = new SpeechSynthesisUtterance(word);
     speech.lang = "en-US";
     // For a clear voice, you can adjust the properties as needed.
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
+    speech.rate = .75;
+    speech.pitch = 3;
+    speech.volume = 5;
 
     speech.onend = () => setActiveWord(null);
     window.speechSynthesis.speak(speech);

@@ -86,12 +86,13 @@ const SecondYear = () => {
       </section>
 
       <section style={styles.featuresSection}>
-        <FeatureCard icon={<Headphones size={40} />} title="Listening" link="/TextRecognition" />
-        <FeatureCard icon={<MessageSquare size={40} />} title="Sentence Framing" link="/SentenceFraming" />
-        <FeatureCard icon={<Moon size={40} />} title="Stories for you" link="/BedtimeStories" />  
-        <FeatureCard icon={<Grid size={40} />} title="Memory Matrix" link="/MemoryMatrix" />
-        <FeatureCard icon={<Volume2 size={40} />} title="Read Aloud" link="/ReadAloud" />
-      </section>
+  <FeatureCard icon={<Headphones size={40} />} title="Listening" link="/TextRecognition" />
+  <FeatureCard icon={<MessageSquare size={40} />} title="Sentence Framing" link="/SentenceFraming" />
+  <FeatureCard icon={<Moon size={40} />} title="Stories for you" link="/BedtimeStories" />  
+  <FeatureCard icon={<Grid size={40} />} title="Memory Matrix" link="/MemoryMatrix" />
+  {/* <FeatureCard icon={<Volume2 size={40} />} title="Read Aloud" link="/Read_aloud" /> */}
+</section>
+
 
       <footer style={styles.footer}>
         <p>&copy; 2025 Robolex. Making learning easier for kids.</p>

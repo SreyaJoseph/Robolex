@@ -39,7 +39,7 @@ export default function SignIn() {
       if (!res.ok) {
         setError(data.error || "Login failed. Please try again.");
       } else {
-        // After successful login, the httpOnly cookie is set
+      
         router.push("/welcome"); // Redirect to welcome/dashboard page
       }
     } catch (err) {
